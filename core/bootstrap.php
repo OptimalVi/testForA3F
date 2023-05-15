@@ -16,6 +16,6 @@ spl_autoload_register(
     }
 );
 
-$APP = new App($appDir);
+$App = new App($appDir);
 
-echo $APP->result();
+echo $App->result();

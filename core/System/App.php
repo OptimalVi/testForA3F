@@ -35,8 +35,18 @@ class App
         $this->request();
     }
 
+    /**
+     * @param string $postfix
+     * @return string
+     */
+    public function dir(string $postfix): string
+    {
+        return $this->rootDir . $postfix;
+    }
+
     public function routing(): void
     {
+        $App = $this;
         Router::setInstance(new FundRouter());
         require $this->rootDir . '/App/Routes/Api.php';
         $route = Router::match(
@@ -46,7 +56,7 @@ class App
         if (is_null($route)) {
             throw new Exception("Not found route", 404);
         }
-        
+
         $this->request = new FundRequest($route, $_REQUEST);
         Request::setInstance($this->request);
     }
