@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./docker/nginx/app.conf:/etc/nginx/conf.d/app.conf
+      - ./:/var/www
+    networks:
+      - a3f-app
+    depends_on:
+      - php
+
+  php:
+    image: php:8-fpm
+    container_name: php
+    networks:
+      - a3f-app
+    volumes:
+      - ./:/var/www
+
+networks:
+  a3f-app:
+    driver: bridge
