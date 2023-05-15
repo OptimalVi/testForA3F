@@ -6,7 +6,7 @@
 - Открытый 80 порт
 
 ## Запуск
-> `git clone https://github.com/`
+> `git clone git@github.com:OptimalVi/testForA3F.git`
 
 > `cd testForA3F`
 
