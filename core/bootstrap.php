@@ -10,10 +10,12 @@ spl_autoload_register(
     /**
      * @param string $class
      */
-    function (string $class) use ($appDir){
+    function (string $class) use ($appDir) {
         $classFile = $appDir . str_replace('\\', '/', $class) . '.php';
         require $classFile;
     }
 );
-echo '<pre>';
+
 $APP = new App($appDir);
+
+echo $APP->result();

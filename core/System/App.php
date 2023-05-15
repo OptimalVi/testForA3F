@@ -12,9 +12,6 @@ use Core\System\Facades\Request;
 use Core\System\Facades\Router;
 use Exception;
 
-/**
- * 
- */
 class App
 {
 
@@ -22,6 +19,11 @@ class App
      * @var FundRequest
      */
     protected FundRequest $request;
+
+    /**
+     * @var mixed
+     */
+    protected mixed $response;
 
     /**
      * @param string $rootDir
@@ -42,9 +44,9 @@ class App
             $_SERVER['REQUEST_URI']
         );
         if (is_null($route)) {
-            throw new \Exception("Not found route", 404);
+            throw new Exception("Not found route", 404);
         }
-
+        
         $this->request = new FundRequest($route, $_REQUEST);
         Request::setInstance($this->request);
     }
@@ -78,11 +80,28 @@ class App
 
         if ($refMethod) {
             $request = $this->request;
-            if ($refParam = $refMethod->getParameters()[0] ?? null) {
-                var_dump($refParam->getType()->getName());
+            $refParam = $refMethod->getParameters()[0] ?? null;
+            if ($refParam) {
+                $requestClass = $refParam->getType()->getName();
+                if (!is_null($requestClass) && $requestClass !== Request::class) {
+                    $request = new $requestClass(
+                        $request->route(),
+                        $request->all()
+                    );
+                }
             }
+
+            $this->response = (new $controller)->$method($request);
         } else {
             throw new Exception("Server error 011", 500);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function result(): mixed
+    {
+        return $this->response;
     }
 }
