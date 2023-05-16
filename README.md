@@ -19,7 +19,10 @@
 вернется json в формате: 
 ` tag: 1`
 
+В проекте есть файл с тестами для Postman (PostmanTestCollection.json)
+
 ## Frontend
+Реализация лежит в папке frontend
 Достаточно открыть файл index.html в папке frontend
 
 ## Время 
